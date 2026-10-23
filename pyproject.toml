@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "movie-recommendation-system"
+version = "0.2.0"
+description = "Leakage-aware MovieLens baselines and hybrid ranking evaluation"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = ["numpy>=1.24,<3", "pandas>=2.0,<3", "scikit-learn>=1.3,<2"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<9", "ruff>=0.9,<1"]
+
+[project.scripts]
+movie-recommender = "movie_recommender.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
