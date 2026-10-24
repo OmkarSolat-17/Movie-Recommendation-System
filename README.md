@@ -5,6 +5,10 @@ collaborative filtering, genre-based content filtering, and a hybrid on both rat
 prediction and recommendation ranking. Runs on CPU; no TensorFlow, GUI, user
 personal information, API keys, or network access is required at runtime.
 
+**Start here:** [guided walkthrough](docs/walkthrough.md) ·
+[actual synthetic example output](docs/demo-report.md) ·
+[evaluation protocol](#evaluation-protocol)
+
 ## Quick start
 
 Python **3.11 or newer** (CI targets 3.11 and 3.12). From the repository root:
@@ -26,7 +30,8 @@ clean environment and rerun checks before changing it.
 
 ```bash
 python examples/make_demo.py --output data/demo
-movie-recommender --data-dir data/demo --k 3 --user-id 101
+movie-recommender --data-dir data/demo --k 3 --user-id 101 \
+  --markdown artifacts/demo.md
 ```
 
 This deliberately tiny, deterministic **synthetic smoke test is not a benchmark**.
@@ -35,6 +40,12 @@ are ignored by Git. Repeating a run with the same environment, data and argument
 produces the same report. JSON includes configuration, dependency versions, input
 SHA-256 hashes, split counts, cold-item counts, per-model metrics and optional
 recommendations with original movie IDs and titles.
+
+Use `--markdown PATH` with either synthetic or real data to export the same
+measurements as a readable comparison table with recommendations and provenance.
+JSON remains the full-precision source. [See an actual generated example](docs/demo-report.md);
+these toy results do not establish real-data performance. The
+[walkthrough](docs/walkthrough.md) explains how to interpret and share them responsibly.
 
 ### Use MovieLens 100K
 
@@ -127,6 +138,7 @@ src/movie_recommender/
   models.py        # Explicit ID maps and six train-only scorers
   evaluation.py    # Observed-pair errors and full-catalog ranking
   cli.py           # Configuration, comparison and JSON reports
+  reporting.py     # Shareable Markdown tables from actual evaluation results
 examples/make_demo.py
 main.py            # Thin backwards-compatible CLI launcher
 tests/            # Offline unit, regression and CLI integration tests

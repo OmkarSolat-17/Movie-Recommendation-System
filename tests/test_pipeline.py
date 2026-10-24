@@ -138,7 +138,11 @@ def test_movielens_loader_and_cli(tmp_path, frames, capsys):
     assert catalog.title.str.endswith("é").all()
     output = tmp_path / "nested" / "report.json"
     args = ["--data-dir", str(tmp_path), "--output", str(output), "--user-id", "51"]
+    markdown = tmp_path / "summary" / "results.md"
+    args.extend(["--markdown", str(markdown)])
     main(args)
+    assert "| hybrid |" in markdown.read_text()
+    assert "Recommendations for user 51" in markdown.read_text()
     first = json.loads(output.read_text())
     main(args)
     assert first == json.loads(output.read_text())

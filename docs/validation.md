@@ -38,3 +38,19 @@ hybrid does not beat global mean on RMSE even on this toy fixture. No real
 MovieLens benchmark was run in this environment. Python 3.12 is configured for
 hosted CI but was not executed locally. Real-data performance, scalability and
 production recommendation quality remain unverified.
+
+## Shareable-report follow-up (2026-10-24)
+
+Executed locally with Python 3.11 and the pinned dependencies:
+
+- `pytest -q`: **34 passed in 1.12s**.
+- `ruff check .`: all checks passed.
+- `ruff format --check .`: 17 files already formatted.
+- `python -m pip check`: no broken requirements.
+- `git diff --check`: passed.
+- Synthetic generation and CLI with `--markdown docs/demo-report.md`: exit 0;
+  produced the checked-in example report from 32 training / 16 test interactions.
+
+Reporting tests check missing versus zero metrics, external-title escaping, and
+Markdown generation through the real CLI. No new MovieLens benchmark or local
+Python 3.12 run was performed for this follow-up. Hosted CI results are separate.

@@ -10,6 +10,7 @@ from pathlib import Path
 from .data import load_movielens, split_interactions
 from .evaluation import evaluate
 from .models import Recommender
+from .reporting import render_markdown
 
 MODELS = ["global_mean", "item_mean", "popularity", "svd", "content", "hybrid"]
 
@@ -18,6 +19,7 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--data-dir", type=Path, required=True)
     parser.add_argument("--output", type=Path, default=Path("artifacts/results.json"))
+    parser.add_argument("--markdown", type=Path, help="Also write a shareable Markdown report")
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--split", choices=["temporal", "random"], default="temporal")
     parser.add_argument("--test-fraction", type=float, default=0.2)
@@ -60,6 +62,9 @@ def main(argv=None):
     args.output.parent.mkdir(parents=True, exist_ok=True)
     text = json.dumps(report, indent=2, allow_nan=False)
     args.output.write_text(text + "\n", encoding="utf-8")
+    if args.markdown is not None:
+        args.markdown.parent.mkdir(parents=True, exist_ok=True)
+        args.markdown.write_text(render_markdown(report), encoding="utf-8")
     print(text)
 
 
