@@ -55,7 +55,10 @@ movie-recommender --help
 
 No absolute paths are embedded. Missing files and malformed data fail explicitly;
 duplicate user/movie pairs, invalid ratings/IDs, and missing catalog references
-are rejected rather than silently merged, imputed or dropped. `u.user` is not used.
+are rejected rather than silently merged, imputed or dropped. All 19 genre flags
+in `u.item` must be present and binary (0 or 1); missing, nonnumeric, or nonbinary
+flags raise `ValueError` before content features are built. An all-zero genre row
+is valid and uses the model's unknown-genre fallback. `u.user` is not used.
 
 ## Models and comparison
 
