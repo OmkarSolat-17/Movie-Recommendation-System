@@ -64,6 +64,10 @@ def load_movielens(path):
         header=None,
         names=["movie_id", "title", "release", "video", "url", *GENRES],
     )
+    # Validate before converting flags to strings: otherwise NaN, text, or 2
+    # silently become an absent genre, corrupting downstream content profiles.
+    if not movies[GENRES].isin([0, 1]).all().all():
+        raise ValueError("Genre flags must be nonmissing binary values (0 or 1)")
     movies["genres"] = movies[GENRES].apply(
         lambda row: " ".join(genre for genre in GENRES if row[genre] == 1), axis=1
     )
